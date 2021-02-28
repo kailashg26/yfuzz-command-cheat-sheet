@@ -1,0 +1,144 @@
+
+>>> import angr
+>>> proj = angr.Project('/home/kailash/Downloads/openssl2')
+>>> proj
+<Project /home/kailash/Downloads/openssl2>
+>>> proj.entry = 0x80de670
+>>> block = proj.factory.block(proj.entry)
+>>> block.pp()
+0x80de670:  push    esi
+0x80de671:  push    edi
+0x80de672:  mov edi, dword ptr [esp + 0xc]
+0x80de676:  mov esi, dword ptr [esp + 0x10]
+0x80de67a:  mov ecx, dword ptr [esp + 0x14]
+0x80de67e:  push    ebp
+0x80de67f:  shl ecx, 6
+0x80de682:  push    ebx
+0x80de683:  add ecx, esi
+0x80de685:  sub ecx, 0x40
+0x80de688:  mov eax, dword ptr [edi]
+0x80de68a:  push    ecx
+0x80de68b:  mov ebx, dword ptr [edi + 4]
+0x80de68e:  mov ecx, dword ptr [edi + 8]
+0x80de691:  mov edx, dword ptr [edi + 0xc]
+0x80de694:  mov edi, ecx
+0x80de696:  mov ebp, dword ptr [esi]
+0x80de698:  xor edi, edx
+0x80de69a:  and edi, ebx
+0x80de69c:  lea eax, [eax + ebp - 0x28955b88]
+0x80de6a3:  xor edi, edx
+0x80de6a5:  add eax, edi
+0x80de6a7:  mov edi, ebx
+0x80de6a9:  rol eax, 7
+0x80de6ac:  mov ebp, dword ptr [esi + 4]
+0x80de6af:  add eax, ebx
+0x80de6b1:  xor edi, ecx
+0x80de6b3:  and edi, eax
+0x80de6b5:  lea edx, [edx + ebp - 0x173848aa]
+0x80de6bc:  xor edi, ecx
+0x80de6be:  add edx, edi
+0x80de6c0:  mov edi, eax
+0x80de6c2:  rol edx, 0xc
+0x80de6c5:  mov ebp, dword ptr [esi + 8]
+0x80de6c8:  add edx, eax
+0x80de6ca:  xor edi, ebx
+0x80de6cc:  and edi, edx
+0x80de6ce:  lea ecx, [ecx + ebp + 0x242070db]
+0x80de6d5:  xor edi, ebx
+0x80de6d7:  add ecx, edi
+0x80de6d9:  mov edi, edx
+0x80de6db:  rol ecx, 0x11
+0x80de6de:  mov ebp, dword ptr [esi + 0xc]
+0x80de6e1:  add ecx, edx
+0x80de6e3:  xor edi, eax
+0x80de6e5:  and edi, ecx
+0x80de6e7:  lea ebx, [ebx + ebp - 0x3e423112]
+0x80de6ee:  xor edi, eax
+0x80de6f0:  add ebx, edi
+0x80de6f2:  mov edi, ecx
+0x80de6f4:  rol ebx, 0x16
+0x80de6f7:  mov ebp, dword ptr [esi + 0x10]
+0x80de6fa:  add ebx, ecx
+0x80de6fc:  xor edi, edx
+0x80de6fe:  and edi, ebx
+0x80de700:  lea eax, [eax + ebp - 0xa83f051]
+0x80de707:  xor edi, edx
+0x80de709:  add eax, edi
+0x80de70b:  mov edi, ebx
+0x80de70d:  rol eax, 7
+0x80de710:  mov ebp, dword ptr [esi + 0x14]
+0x80de713:  add eax, ebx
+0x80de715:  xor edi, ecx
+0x80de717:  and edi, eax
+0x80de719:  lea edx, [edx + ebp + 0x4787c62a]
+0x80de720:  xor edi, ecx
+0x80de722:  add edx, edi
+0x80de724:  mov edi, eax
+0x80de726:  rol edx, 0xc
+0x80de729:  mov ebp, dword ptr [esi + 0x18]
+0x80de72c:  add edx, eax
+0x80de72e:  xor edi, ebx
+0x80de730:  and edi, edx
+0x80de732:  lea ecx, [ecx + ebp - 0x57cfb9ed]
+0x80de739:  xor edi, ebx
+0x80de73b:  add ecx, edi
+0x80de73d:  mov edi, edx
+0x80de73f:  rol ecx, 0x11
+0x80de742:  mov ebp, dword ptr [esi + 0x1c]
+0x80de745:  add ecx, edx
+0x80de747:  xor edi, eax
+0x80de749:  and edi, ecx
+0x80de74b:  lea ebx, [ebx + ebp - 0x2b96aff]
+0x80de752:  xor edi, eax
+0x80de754:  add ebx, edi
+0x80de756:  mov edi, ecx
+0x80de758:  rol ebx, 0x16
+0x80de75b:  mov ebp, dword ptr [esi + 0x20]
+0x80de75e:  add ebx, ecx
+0x80de760:  xor edi, edx
+0x80de762:  and edi, ebx
+0x80de764:  lea eax, [eax + ebp + 0x698098d8]
+0x80de76b:  xor edi, edx
+0x80de76d:  add eax, edi
+0x80de76f:  mov edi, ebx
+0x80de771:  rol eax, 7
+0x80de774:  mov ebp, dword ptr [esi + 0x24]
+0x80de777:  add eax, ebx
+0x80de779:  xor edi, ecx
+>>> state = proj.factory.entry_state()
+>>> state
+<SimState @ 0x80de670>
+>>> simgr = proj.factory.simulation_manager(state)
+>>> simgr.active
+[<SimState @ 0x80de670>]
+>>> simgr.step()
+WARNING | 2021-01-14 21:58:45,278 | angr.storage.memory_mixins.default_filler_mixin | Filling register esi with 4 unconstrained bytes referenced from 0x80de670 (md5_block_asm_data_order+0x0 in openssl2 (0x80de670))
+WARNING | 2021-01-14 21:58:45,281 | angr.storage.memory_mixins.default_filler_mixin | Filling register edi with 4 unconstrained bytes referenced from 0x80de671 (md5_block_asm_data_order+0x1 in openssl2 (0x80de671))
+WARNING | 2021-01-14 21:58:45,287 | angr.storage.memory_mixins.default_filler_mixin | Filling register ebx with 4 unconstrained bytes referenced from 0x80de682 (md5_block_asm_data_order+0x12 in openssl2 (0x80de682))
+WARNING | 2021-01-14 21:58:45,290 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x0 with 4 unconstrained bytes referenced from 0x80de696 (md5_block_asm_data_order+0x26 in openssl2 (0x80de696))
+WARNING | 2021-01-14 21:58:45,292 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x4 with 4 unconstrained bytes referenced from 0x80de6ac (md5_block_asm_data_order+0x3c in openssl2 (0x80de6ac))
+WARNING | 2021-01-14 21:58:45,294 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x8 with 4 unconstrained bytes referenced from 0x80de6c5 (md5_block_asm_data_order+0x55 in openssl2 (0x80de6c5))
+WARNING | 2021-01-14 21:58:45,297 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0xc with 4 unconstrained bytes referenced from 0x80de6de (md5_block_asm_data_order+0x6e in openssl2 (0x80de6de))
+WARNING | 2021-01-14 21:58:45,299 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x10 with 4 unconstrained bytes referenced from 0x80de6f7 (md5_block_asm_data_order+0x87 in openssl2 (0x80de6f7))
+WARNING | 2021-01-14 21:58:45,301 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x14 with 4 unconstrained bytes referenced from 0x80de710 (md5_block_asm_data_order+0xa0 in openssl2 (0x80de710))
+WARNING | 2021-01-14 21:58:45,304 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x18 with 4 unconstrained bytes referenced from 0x80de729 (md5_block_asm_data_order+0xb9 in openssl2 (0x80de729))
+WARNING | 2021-01-14 21:58:45,321 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x1c with 4 unconstrained bytes referenced from 0x80de742 (md5_block_asm_data_order+0xd2 in openssl2 (0x80de742))
+WARNING | 2021-01-14 21:58:45,328 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x20 with 4 unconstrained bytes referenced from 0x80de75b (md5_block_asm_data_order+0xeb in openssl2 (0x80de75b))
+WARNING | 2021-01-14 21:58:45,333 | angr.storage.memory_mixins.default_filler_mixin | Filling memory at 0x24 with 4 unconstrained bytes referenced from 0x80de774 (md5_block_asm_data_order+0x104 in openssl2 (0x80de774))
+<SimulationManager with 1 active>
+>>> simgr.active
+[<SimState @ 0x80de77b>]
+
+
+
+
+
+# No.of basic blocks listed for the function <md5_block_asm_data_order>:
+
+0x80de7a6
+0x80de8b8
+0x80de9cc
+0x80deaea
+0x80dec18
+0x80ded12
+
